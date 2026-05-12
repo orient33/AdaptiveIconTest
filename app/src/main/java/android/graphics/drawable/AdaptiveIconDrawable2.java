@@ -18,6 +18,7 @@ import android.graphics.Region;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -244,6 +245,7 @@ public class AdaptiveIconDrawable2 extends Drawable implements Drawable.Callback
         if (bounds.isEmpty()) {
             return;
         }
+        logg("onBoundsChange " + bounds + Log.getStackTraceString(new Throwable()));
         updateLayerBounds(bounds);
     }
 
@@ -280,6 +282,7 @@ public class AdaptiveIconDrawable2 extends Drawable implements Drawable.Callback
             outRect.set(cX - insetWidth, cY - insetHeight, cX + insetWidth, cY + insetHeight);
 
             d.setBounds(outRect);
+            logg(i + " : setBounds " + outRect+", ");
         }
     }
 
@@ -294,6 +297,7 @@ public class AdaptiveIconDrawable2 extends Drawable implements Drawable.Callback
         if (mLayersBitmap == null || mLayersBitmap.getWidth() != b.width()
                 || mLayersBitmap.getHeight() != b.height()) {
             mLayersBitmap = Bitmap.createBitmap(b.width(), b.height(), Bitmap.Config.ARGB_8888);
+            logg(".create bitmap " + b.width() + ", " + b.height());
         }
 
         mPaint.setShader(null);
@@ -321,6 +325,7 @@ public class AdaptiveIconDrawable2 extends Drawable implements Drawable.Callback
         }
         if (mMaskScaleOnly != null) {
             Rect bounds = getBounds();
+            logg("draw. translate " + bounds);
             canvas.translate(bounds.left, bounds.top);
             canvas.drawPath(mMaskScaleOnly, mPaint);
             canvas.translate(-bounds.left, -bounds.top);
@@ -959,6 +964,10 @@ public class AdaptiveIconDrawable2 extends Drawable implements Drawable.Callback
             mCheckedOpacity = false;
             mCheckedStateful = false;
         }
+    }
+
+    private static void logg(String msg) {
+        android.util.Log.i("df", "AdaptiveIcon2" + msg);
     }
 }
 

@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.AdaptiveIconDrawable2
 import android.graphics.drawable.BitmapDrawable
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -29,7 +30,7 @@ class IconVM(val app: Application) : AndroidViewModel(app) {
     //create adaptiveIcon2
     private fun createAdaptiveIcon2(list: MutableList<DrawableData>) {
         val resources = app.resources
-        val density = resources.displayMetrics.density
+        val density = 1f//resources.displayMetrics.density
         val bgSize = 108 * density
         val size = 72 * density
         val padding = 18 * density
@@ -46,7 +47,7 @@ class IconVM(val app: Application) : AndroidViewModel(app) {
         canvas.setBitmap(bg)
         canvas.drawColor(Color.WHITE)
         canvas.setBitmap(null)
-
+        Log.i("df", "createAdaptiveIcon2: size $bgSize")
         val background = BitmapDrawable(resources, bg)
         val foreground = BitmapDrawable(resources, fgBitmap)
         val drawable2 = AdaptiveIconDrawable2(background, foreground)
